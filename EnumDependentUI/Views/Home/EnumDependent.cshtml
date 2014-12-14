@@ -1,0 +1,43 @@
+﻿@using System.Web.Script.Serialization
+@using EnumDependentUI.Models
+@model EnumDependentViewModel
+
+@{
+    ViewBag.Title = "Enum Dependent UI Page";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p>Use this area to test the UI that will be dependent on Enums.</p>
+
+<div class="pure-u-1-2" ng-app='EnumDependentUI' ng-controller='MainController'>
+    <div class="control-group">
+        <label for="OfferCategory">Offer category *</label>
+        <div class="select">
+            @Html.DropDownListFor(m => m.OfferType, new SelectList(Model.OfferCategories.Select(e => new { Id = (int)e, Name = e}), "Id", "Name"), new
+                                            {
+                                                ng_model = "dataEnum.OfferCategory",
+                                                selected = "{{dataEnum.OfferCategory}}",
+                                                tabindex = "1",
+                                                offer_category_broadcast = ""
+                                            })
+        </div>
+    </div>
+    <br />
+    <div class="control-group">
+        <label for="OfferType">Offer type *</label>
+        <offer-type-radio-buttons src="/home/offertypes" ng-model="dataEnum.OfferType"/>
+    </div>
+    <br />
+    <div>
+        <p>{{dataEnum.OfferType}}</p>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function set(value){
+        return value;
+    }
+
+    var model = set(@Html.Raw(new JavaScriptSerializer().Serialize(Model)));
+</script>
